@@ -1,0 +1,24 @@
+FROM ubuntu:18.04
+
+ENV DEBIAN_FRONTEND="noninteractive"
+
+RUN set -ex \
+    && sed -i -- 's/# deb-src/deb-src/g' /etc/apt/sources.list \
+    && sed -i -- 's/archive.ubuntu/br.archive.ubuntu/g' /etc/apt/sources.list \
+    && apt-get update \
+    && apt -y build-dep i3-wm \
+    && apt-get install -yqq --no-install-recommends \
+               build-essential \
+               cdbs \
+               devscripts \
+               equivs \
+               fakeroot \
+	       dpkg-dev \
+	       dh-autoreconf \
+	       libxcb-xrm-dev \
+	       libxcb-xkb-dev \
+	       libxkbcommon-dev \
+	       libxkbcommon-x11-dev \
+               libxcb-shape0-dev \
+    && apt-get clean \
+    && rm -rf /tmp/* /var/tmp/*
